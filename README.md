@@ -68,6 +68,6 @@ The platform is architected for scalability and low-latency AI inference:
 * **For Employers:** Higher screening accuracy and reduced manual effort in the recruitment cycle.
 * **Innovation:** Combines Large Language Models (LLMs) with Vision-Language Models (VLMs) to create a truly multimodal hiring assistant.
 
----
 
-*Developed as a Graduation Project focused on AI Engineering and Scalable Deployment.*
+
+
