@@ -1,0 +1,30 @@
+
+services:
+  # 1. Django Backend
+  backend:
+    build: ./smart_hiring_project
+    command: python manage.py runserver
+    volumes:
+      # CRITICAL: Maps the folder containing db.sqlite3 to the host
+      # so data survives container restarts.
+      - ./backend_data:/app/data
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+
+  # 2. Frontend (React/Next/Vue)
+  frontend:
+    build: ./one/one
+    # If using Create React App / Vite:
+    command: npm start 
+    # If using Next.js Production:
+    # command: npm start (after running 'npm run build' in Dockerfile)
+    ports:
+      - "3000:3000"
+    environment_file:
+      # Tell Frontend where the Backend lives
+      # Note: Since this runs in browser, use the PUBLIC IP/URL, not 'backend'
+      - .env.local
+    depends_on:
+      - backend

@@ -1,0 +1,19 @@
+# --- AI Core ---
+torch==2.6.0
+torchvision==0.21.0
+torchaudio==2.6.0
+bitsandbytes
+transformers==4.46.1
+accelerate
+tiktoken
+einops
+
+# --- Video Processing ---
+av
+qwen-vl-utils
+
+# --- API & Server  ---
+fastapi
+uvicorn
+requests
+pydantic

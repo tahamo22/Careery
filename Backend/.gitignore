@@ -1,0 +1,17 @@
+.env
+*.env
+secret_key.txt
+venv/
+env/
+ENV/
+*.sqlite3
+db.sqlite3
+__pycache__/
+*.py[cod]
+*$py.class
+25.2
+2017.4.17
+pip
+python
+timedelta(minutes
+self.application_deadline
