@@ -3,9 +3,9 @@ import re
 import json
 import torch
 import os
-import tempfile      # ← ADD THIS
-import requests      # ← ADD THIS
-from urllib.parse import urlparse  # ← ADD THIS (fixes 'urlparse' error)
+import tempfile     
+import requests     
+from urllib.parse import urlparse 
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
 from qwen_vl_utils import process_vision_info
@@ -122,10 +122,10 @@ def parse_model_response(response_text):
                 return json.loads(match.group(0))
             except: continue
         
-        # Fallback: find first {
+       
         start_idx = response_text.find('{')
         if start_idx != -1:
-             # Simple attempt to load remaining text
+            
              try:
                  return json.loads(response_text[start_idx:])
              except: pass
@@ -148,7 +148,7 @@ def download_video_from_url(url):
     try:
         temp_file = tempfile.NamedTemporaryFile(delete=False)
         
-        # السطر ده هو السر: بيعرف نجروك إن اللي داخل ده "كود" مش "متصفح" فيلغي التحذير
+        
         headers = {
             'ngrok-skip-browser-warning': 'true',
             'User-Agent': 'Python/Requests'
@@ -160,11 +160,11 @@ def download_video_from_url(url):
                 if chunk:
                     temp_file.write(chunk)
         
-        temp_file.flush() # تأكد إن البيانات اتكتبت فعلياً من الرام للهارد
-        temp_file.close() # اقفل الملف قبل ما تبعت المسار للموديل
+        temp_file.flush() 
+        temp_file.close() 
         
         
-        # تأكد إن الملف نزل وحجمه مش صغير جداً (عشان نتأكد إنه فيديو مش صفحة HTML)
+
         if os.path.getsize(temp_file.name) < 1000:
             print("❌ Error: Downloaded file is too small, likely not a video.")
             return None
@@ -204,12 +204,11 @@ def analyze_interview(video_input):
                 "role": "user",
                 "content": [
                     
-                       # التعديل المطلوب داخل قائمة messages
                         {
                             "type": "video", 
                             "video": local_video_path,
-                            # "fps": 1.0,  # ← جرب تعمل كومنت لده
-                            "nframes": 4,  # ← واستخدم ده بدله (بيخلي الموديل يسحب 8 صور من الفيديو بالتساوي)
+                            # "fps": 1.0,  
+                            "nframes": 4, 
                             "max_pixels": 360 * 420, # Limit resolution per frame
                         },
                     
@@ -217,7 +216,7 @@ def analyze_interview(video_input):
                         "type": "text", 
                         "text": (
                             
-                                # Use this prompt to get the exact bulleted/paragraph structure without numbers
+                                
                                     """
                                         You are a Senior Executive Interview Coach specializing in non-verbal communication and behavioral analysis.
 
@@ -312,7 +311,7 @@ def analyze_interview(video_input):
         result = f"Error processing video: {str(e)}"
     
     finally:
-        # 3. Cleanup: If we downloaded a temp file, delete it now
+     
         if is_temp_file and os.path.exists(local_video_path):
             os.remove(local_video_path)
             print(f"🗑️ Cleaned up temp file: {local_video_path}")
