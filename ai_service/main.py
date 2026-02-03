@@ -4,14 +4,12 @@ from contextlib import asynccontextmanager
 import ml_models  
 from fastapi.middleware.cors import CORSMiddleware
 
-# 1. تعريف شكل البيانات
 class CVRequest(BaseModel):
     cv_text: str
 
 class VideoRequest(BaseModel):
     video_url: str
 
-# 2. إدارة دورة حياة التطبيق (تحميل الموديلات)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("🚀 Starting up AI Service...")
@@ -19,10 +17,8 @@ async def lifespan(app: FastAPI):
     yield
     print("🛑 Shutting down AI Service...")
 
-# 3. إنشاء تطبيق FastAPI (مرة واحدة فقط!)
 app = FastAPI(lifespan=lifespan)
 
-# 4. إضافة الـ Middleware (لازم تكون بعد تعريف app وقبل الـ routes)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -31,7 +27,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 5. الـ Routes
 @app.get("/")
 def read_root():
     return {"status": "AI Service is Running", "models_loaded": True}
